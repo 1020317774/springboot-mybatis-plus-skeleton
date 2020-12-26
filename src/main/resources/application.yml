@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: tiny-project
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+  configuration:
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true
+
+# JWT配置
+jwt:
+  tokenHead: 'Bearer '  #JWT负载中拿到开头
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: A93FD9EA990A00B508EC28E708137289 #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+
+# redis
+redis:
+  # 数据库名称
+  database: uranus
+  key:
+    # 业务
+    admin: 'ums:adminUser'
+    # 业务资源
+    resourceList: 'ums:resourceList'
+  expire:
+    common: 86400 # 24小时
+
+# Security白名单
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /actuator/**
+      - /druid/**
+      - /admin/login
+      - /admin/register
+      - /admin/info
+      - /admin/logout

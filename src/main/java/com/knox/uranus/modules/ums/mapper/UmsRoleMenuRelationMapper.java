@@ -1,0 +1,20 @@
+package com.knox.uranus.modules.ums.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.knox.uranus.modules.ums.model.UmsRoleMenuRelation;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ * <p>
+ * 后台角色菜单关系表 Mapper 接口
+ * </p>
+ *
+ * @author knox
+ * @since 2020-08-21
+ */
+@Mapper
+@Repository
+public interface UmsRoleMenuRelationMapper extends BaseMapper<UmsRoleMenuRelation> {
+
+}
