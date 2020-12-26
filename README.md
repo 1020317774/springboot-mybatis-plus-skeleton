@@ -6,7 +6,7 @@
 
 ## 项目介绍
 
-`uranus-upms` 是一个电商后台管理系统的前端项目，采用`RESTFul`风格设计，基于 `Spring Boot` + `Mybatis-Plus` 实现。主要包括 `权限管理`、`系统设置` 等功能。
+`uranus-upms` 是一个权限管理系统的后端项目，采用`RESTFul`风格设计，基于 `Spring Boot` + `Mybatis-Plus` 实现。主要包括 `权限管理`、`系统设置` 等功能。
 
 ### 项目演示
 
