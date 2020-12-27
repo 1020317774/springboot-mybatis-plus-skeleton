@@ -26,7 +26,7 @@ public interface UmsResourceMapper extends BaseMapper<UmsResource> {
      * @param adminId 用户ID
      * @return 用户资源列表
      */
-    List<UmsResource> getResourceList(@Param("adminId") Long adminId);
+    List<UmsResource> getResourceList(@Param("adminId") String adminId);
 
     /**
      * 根据角色ID获取资源

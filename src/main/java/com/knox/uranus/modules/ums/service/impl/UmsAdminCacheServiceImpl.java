@@ -62,7 +62,7 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     private String REDIS_KEY_RESOURCE_LIST;
 
     @Override
-    public void delAdmin(Long adminId) {
+    public void delAdmin(String adminId) {
         UmsAdminUser admin = adminService.getById(adminId);
         if (admin != null) {
             String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
@@ -71,7 +71,7 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     }
 
     @Override
-    public void delResourceList(Long adminId) {
+    public void delResourceList(String adminId) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
         redisService.del(key);
     }
@@ -123,13 +123,13 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     }
 
     @Override
-    public List<UmsResource> getResourceList(Long adminId) {
+    public List<UmsResource> getResourceList(String adminId) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
         return (List<UmsResource>) redisService.get(key);
     }
 
     @Override
-    public void setResourceList(Long adminId, List<UmsResource> resourceList) {
+    public void setResourceList(String adminId, List<UmsResource> resourceList) {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":" + adminId;
         redisService.set(key, resourceList, REDIS_EXPIRE);
     }

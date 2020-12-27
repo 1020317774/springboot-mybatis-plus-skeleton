@@ -93,8 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public RestfulAccessDeniedHandler restfulAccessDeniedHandler() {
-        return new RestfulAccessDeniedHandler();
+    public RestAccessDeniedHandler restfulAccessDeniedHandler() {
+        return new RestAccessDeniedHandler();
     }
 
     @Bean

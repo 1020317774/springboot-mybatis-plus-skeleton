@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2020-12-23
  */
 @Service
-public class MyUserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UmsAdminService adminService;

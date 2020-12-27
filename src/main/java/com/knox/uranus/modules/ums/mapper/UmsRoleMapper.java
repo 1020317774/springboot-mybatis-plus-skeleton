@@ -23,6 +23,6 @@ public interface UmsRoleMapper extends BaseMapper<UmsRole> {
     /**
      * 获取用户所有角色
      */
-    List<UmsRole> getRoleList(@Param("adminId") Long adminId);
+    List<UmsRole> getRoleList(@Param("adminId") String adminId);
 
 }

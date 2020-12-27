@@ -34,7 +34,7 @@ public interface UmsRoleService extends IService<UmsRole> {
     /**
      * 根据管理员ID获取对应菜单
      */
-    List<UmsMenu> getMenuList(Long adminId);
+    List<UmsMenu> getMenuList(String adminId);
 
     /**
      * 获取角色相关菜单

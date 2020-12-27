@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.knox.uranus.common.api.CommonPage;
 import com.knox.uranus.common.api.CommonResult;
+import com.knox.uranus.common.exception.Asserts;
 import com.knox.uranus.modules.BaseController;
 import com.knox.uranus.modules.ums.dto.UmsAdminUserLoginDTO;
 import com.knox.uranus.modules.ums.dto.UmsAdminUserRegisterDTO;
@@ -67,7 +68,7 @@ public class UmsAdminUserController extends BaseController {
         Map<String, String> tokenMap = new HashMap<>(16);
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
-        return CommonResult.success(tokenMap,"登录成功");
+        return CommonResult.success(tokenMap, "登录成功");
     }
 
     @ApiOperation(value = "刷新token")
@@ -92,6 +93,10 @@ public class UmsAdminUserController extends BaseController {
         }
         String username = principal.getName();
         UmsAdminUser umsAdminUser = adminService.getAdminByUsername(username);
+        // 中途禁用
+        if (!umsAdminUser.getStatus()) {
+            Asserts.fail("账号已被禁用，请联系管理员处理 ！");
+        }
         Map<String, Object> data = new HashMap<>(16);
         data.put("username", umsAdminUser.getUsername());
         data.put("menus", roleService.getMenuList(umsAdminUser.getId()));
@@ -121,14 +126,14 @@ public class UmsAdminUserController extends BaseController {
 
     @ApiOperation("获取指定用户信息")
     @GetMapping(value = "/{id}")
-    public CommonResult<UmsAdminUser> getItem(@PathVariable Long id) {
+    public CommonResult<UmsAdminUser> getItem(@PathVariable String id) {
         UmsAdminUser admin = adminService.getById(id);
         return CommonResult.success(admin);
     }
 
     @ApiOperation("修改指定用户信息")
     @PostMapping(value = "/update/{id}")
-    public CommonResult<Map<String, Object>> update(@PathVariable Long id, @RequestBody UmsAdminUser admin) {
+    public CommonResult<Map<String, Object>> update(@PathVariable String id, @RequestBody UmsAdminUser admin) {
         boolean success = adminService.update(id, admin);
         if (success) {
             return CommonResult.success(null);
@@ -138,7 +143,7 @@ public class UmsAdminUserController extends BaseController {
 
     @ApiOperation("修改指定用户密码")
     @PostMapping(value = "/updatePassword")
-    public CommonResult updatePassword(@Validated @RequestBody UpdateAdminPasswordDTO dto) {
+    public CommonResult<?> updatePassword(@Validated @RequestBody UpdateAdminPasswordDTO dto) {
         int status = adminService.updatePassword(dto);
         if (status > 0) {
             return CommonResult.success(status);
@@ -155,7 +160,7 @@ public class UmsAdminUserController extends BaseController {
 
     @ApiOperation("删除指定用户信息")
     @PostMapping(value = "/delete/{id}")
-    public CommonResult<Map<String, Object>> delete(@PathVariable Long id) {
+    public CommonResult<Map<String, Object>> delete(@PathVariable String id) {
         boolean success = adminService.delete(id);
         if (success) {
             return CommonResult.success(null);
@@ -165,7 +170,7 @@ public class UmsAdminUserController extends BaseController {
 
     @ApiOperation("修改帐号状态")
     @PostMapping(value = "/updateStatus/{id}")
-    public CommonResult<Map<String, Object>> updateStatus(@PathVariable Long id, @RequestParam(value = "status") Boolean status) {
+    public CommonResult<Map<String, Object>> updateStatus(@PathVariable String id, @RequestParam(value = "status") Boolean status) {
         UmsAdminUser umsAdminUser = new UmsAdminUser();
         umsAdminUser.setStatus(status);
         boolean success = adminService.update(id, umsAdminUser);
@@ -177,8 +182,8 @@ public class UmsAdminUserController extends BaseController {
 
     @ApiOperation("给用户分配角色")
     @PostMapping(value = "/role/update")
-    public CommonResult updateRole(@RequestParam("adminId") Long adminId,
-                                   @RequestParam("roleIds") List<Long> roleIds) {
+    public CommonResult<?> updateRole(@RequestParam("adminId") String adminId,
+                                      @RequestParam("roleIds") List<Long> roleIds) {
         int count = adminService.updateRole(adminId, roleIds);
         if (count >= 0) {
             return CommonResult.success(count);
@@ -188,7 +193,7 @@ public class UmsAdminUserController extends BaseController {
 
     @ApiOperation("获取指定用户的角色")
     @GetMapping(value = "/role/{adminId}")
-    public CommonResult<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
+    public CommonResult<List<UmsRole>> getRoleList(@PathVariable String adminId) {
         List<UmsRole> roleList = adminService.getRoleList(adminId);
         return CommonResult.success(roleList);
     }

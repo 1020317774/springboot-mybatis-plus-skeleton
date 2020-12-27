@@ -11,8 +11,8 @@ import lombok.EqualsAndHashCode;
  * @date 2020/7/16
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Builder
+@EqualsAndHashCode(callSuper = false)
 public class SwaggerProperties {
     /**
      * API文档生成基础路径

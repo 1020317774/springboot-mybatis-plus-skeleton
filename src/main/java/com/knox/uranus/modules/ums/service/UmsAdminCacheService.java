@@ -21,7 +21,7 @@ public interface UmsAdminCacheService {
     /**
      * 删除后台用户缓存
      */
-    void delAdmin(Long adminId);
+    void delAdmin(String adminId);
 
     /**
      * 获取缓存后台用户信息
@@ -31,18 +31,18 @@ public interface UmsAdminCacheService {
     /**
      * 获取缓存后台用户资源列表
      */
-    List<UmsResource> getResourceList(Long adminId);
+    List<UmsResource> getResourceList(String adminId);
 
     /**
      * 设置后台后台用户资源列表
      */
-    void setResourceList(Long adminId, List<UmsResource> resourceList);
+    void setResourceList(String adminId, List<UmsResource> resourceList);
 
 
     /**
      * 删除后台用户资源列表缓存
      */
-    void delResourceList(Long adminId);
+    void delResourceList(String adminId);
 
     /**
      * 当角色相关资源信息改变时删除相关后台用户缓存

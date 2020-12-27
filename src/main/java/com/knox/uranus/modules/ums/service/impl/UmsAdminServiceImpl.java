@@ -136,7 +136,7 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdminUse
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
-//            updateLoginTimeByUsername(username);
+            updateLoginTimeByUsername(username);
             insertLoginLog(username);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
@@ -192,7 +192,7 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdminUse
     }
 
     @Override
-    public boolean update(Long id, UmsAdminUser admin) {
+    public boolean update(String id, UmsAdminUser admin) {
         admin.setId(id);
         UmsAdminUser rawAdmin = getById(id);
         if (rawAdmin.getPassword().equals(admin.getPassword())) {
@@ -212,7 +212,7 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdminUse
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         adminCacheService.delAdmin(id);
         boolean success = removeById(id);
         adminCacheService.delResourceList(id);
@@ -221,13 +221,14 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdminUse
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateRole(Long adminId, List<Long> roleIds) {
+    public int updateRole(String adminId, List<Long> roleIds) {
         int count = roleIds == null ? 0 : roleIds.size();
-        //先删除原来的关系
+        // 先删除原来角色
         QueryWrapper<UmsAdminRoleRelation> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UmsAdminRoleRelation::getAdminId, adminId);
         adminRoleRelationService.remove(wrapper);
-        //建立新关系
+
+        // 分配新角色
         if (!CollectionUtils.isEmpty(roleIds)) {
             List<UmsAdminRoleRelation> list = new ArrayList<>();
             for (Long roleId : roleIds) {
@@ -238,17 +239,19 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdminUse
             }
             adminRoleRelationService.saveBatch(list);
         }
+
+        // 删除角色资源缓存
         adminCacheService.delResourceList(adminId);
         return count;
     }
 
     @Override
-    public List<UmsRole> getRoleList(Long adminId) {
+    public List<UmsRole> getRoleList(String adminId) {
         return roleMapper.getRoleList(adminId);
     }
 
     @Override
-    public List<UmsResource> getResourceList(Long adminId) {
+    public List<UmsResource> getResourceList(String adminId) {
         List<UmsResource> resourceList = adminCacheService.getResourceList(adminId);
         if (CollUtil.isNotEmpty(resourceList)) {
             return resourceList;

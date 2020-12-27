@@ -68,7 +68,7 @@ public interface UmsAdminService extends IService<UmsAdminUser> {
      * @param admin 用户对象
      * @return
      */
-    boolean update(Long id, UmsAdminUser admin);
+    boolean update(String id, UmsAdminUser admin);
 
     /**
      * 删除指定用户
@@ -76,7 +76,7 @@ public interface UmsAdminService extends IService<UmsAdminUser> {
      * @param id 用户ID
      * @return
      */
-    boolean delete(Long id);
+    boolean delete(String id);
 
     /**
      * 修改用户角色关系
@@ -85,7 +85,7 @@ public interface UmsAdminService extends IService<UmsAdminUser> {
      * @param roleIds 角色ID
      * @return
      */
-    int updateRole(Long adminId, List<Long> roleIds);
+    int updateRole(String adminId, List<Long> roleIds);
 
     /**
      * 获取用户对于角色
@@ -93,7 +93,7 @@ public interface UmsAdminService extends IService<UmsAdminUser> {
      * @param adminId 用户ID
      * @return
      */
-    List<UmsRole> getRoleList(Long adminId);
+    List<UmsRole> getRoleList(String adminId);
 
     /**
      * 获取指定用户的可访问资源
@@ -101,7 +101,7 @@ public interface UmsAdminService extends IService<UmsAdminUser> {
      * @param adminId 用户ID
      * @return
      */
-    List<UmsResource> getResourceList(Long adminId);
+    List<UmsResource> getResourceList(String adminId);
 
     /**
      * 修改密码

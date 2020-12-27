@@ -30,7 +30,7 @@ public class UmsAdminLoginLog implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Long adminId;
+    private String adminId;
 
     private Date createTime;
 
